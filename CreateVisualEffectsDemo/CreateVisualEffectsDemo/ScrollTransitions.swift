@@ -9,48 +9,52 @@ import SwiftUI
 
 #Preview("Paging + Parallax") {
     let photos = [
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA")
+        Photo("Lily Pads"),
+        Photo("Fish"),
+        Photo("Succulent")
     ]
-
+    
     ScrollView(.horizontal) {
-        LazyHStack(spacing: 12) {
+        LazyHStack(spacing: 16) {
             ForEach(photos) { photo in
                 VStack {
-                    DestinationPhoto(photo)
-                        .containerRelativeFrame(.horizontal)
-                        .scrollTransition(axis: .horizontal) { content, phase in
-                            content
-                                .offset(x: phase.isIdentity ? 0 : phase.value * -200)
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 36))
-
-                    DestinationLabel(photo)
+                    ZStack {
+                        ItemPhoto(photo)
+                            .scrollTransition(axis: .horizontal) { content, phase in
+                                content
+                                    .offset(x: phase.isIdentity ? 0 : phase.value * -200)
+                            }
+                    }
+                    .containerRelativeFrame(.horizontal)
+                    .clipShape(RoundedRectangle(cornerRadius: 36))
+                    
+                    ItemLabel(photo)
                         .scrollTransition(axis: .horizontal) { content, phase in
                             content
                                 .opacity(phase.isIdentity ? 1 : 0)
                                 .offset(x: phase.value * 100)
                         }
+                    
                 }
             }
         }
     }
-    .contentMargins(24)
+    .contentMargins(32)
     .scrollTargetBehavior(.paging)
+    
 }
 
 #Preview("Paging + Rotation") {
     let photos = [
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA")
+        Photo("Lily Pads"),
+        Photo("Fish"),
+        Photo("Succulent")
     ]
 
     ScrollView(.horizontal) {
         LazyHStack(spacing: 12) {
             ForEach(photos) { photo in
-                DestinationPhoto(photo)
+                ItemPhoto(photo)
                     .containerRelativeFrame(.horizontal)
                     .clipShape(RoundedRectangle(cornerRadius: 36))
                     .scrollTransition(axis: .horizontal) { content, phase in
@@ -66,15 +70,15 @@ import SwiftUI
 
 #Preview("Paging") {
     let photos = [
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA"),
-        Photo("San Francisco, CA")
+        Photo("Lily Pads"),
+        Photo("Fish"),
+        Photo("Succulent")
     ]
 
     ScrollView(.horizontal) {
         LazyHStack(spacing: 12) {
             ForEach(photos) { photo in
-                DestinationPhoto(photo)
+                ItemPhoto(photo)
                     .containerRelativeFrame(.horizontal)
                     .clipShape(RoundedRectangle(cornerRadius: 36))
             }
@@ -94,7 +98,7 @@ struct Photo: Identifiable {
     }
 }
 
-struct DestinationPhoto: View {
+struct ItemPhoto: View {
     var photo: Photo
 
     init(_ photo: Photo) {
@@ -102,13 +106,14 @@ struct DestinationPhoto: View {
     }
 
     var body: some View {
-        Image("palm_tree")
+        Image(photo.title)
             .resizable()
-            .aspectRatio(contentMode: .fit)
+            .scaledToFill()
+            .frame(height: 500)
     }
 }
 
-struct DestinationLabel: View {
+struct ItemLabel: View {
     var photo: Photo
 
     init(_ photo: Photo) {
@@ -117,6 +122,7 @@ struct DestinationLabel: View {
 
     var body: some View {
         Text(photo.title)
-            .font(.system(.headline, design: .rounded, weight: .semibold))
+            .font(.title)
     }
 }
+

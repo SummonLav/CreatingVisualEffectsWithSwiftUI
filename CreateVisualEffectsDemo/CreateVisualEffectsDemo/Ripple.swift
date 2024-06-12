@@ -25,7 +25,6 @@ import SwiftUI
                 }
             }
             .modifier(RippleEffect(at: origin, trigger: counter))
-            .shadow(radius: 3, y: 2)
 
         Spacer()
     }
@@ -73,7 +72,6 @@ import SwiftUI
             .aspectRatio(contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .modifier(RippleModifier(origin: origin, elapsedTime: time, duration: 2, amplitude: amplitude, frequency: frequency, decay: decay))
-            .shadow(radius: 3, y: 2)
             .onTapGesture {
                 origin = $0
             }

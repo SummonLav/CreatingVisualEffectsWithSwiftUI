@@ -13,7 +13,7 @@ import SwiftUI
         VStack {
             ForEach(0 ..< 20) { _ in
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(.blue)
+                    .fill(.purple)
                     .frame(height: 100)
                     .visualEffect { content, proxy in
                         let frame = proxy.frame(in: .scrollView(axis: .vertical))
@@ -23,12 +23,14 @@ import SwiftUI
 
                         // The distance this view extends past the bottom edge
                         // of the scroll view.
-                        let distance = max(0, frame.maxY - parentBounds.height)
+                        let distance = min(0, frame.minY)
 
                         return content
                             .hueRotation(.degrees(frame.origin.y / 10))
-                            .scaleEffect(1 - distance / 700, anchor: .top)
-                            .brightness(-distance / 250)
+                            .scaleEffect(1 + distance / 700)
+                            .offset(y: -distance / 1.25)
+                            .brightness(-distance / 400)
+                            .blur(radius: -distance / 50)
                     }
             }
         }
@@ -41,7 +43,7 @@ import SwiftUI
         VStack {
             ForEach(0 ..< 20) { _ in
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(.blue)
+                    .fill(.purple)
                     .frame(height: 100)
                     .visualEffect { content, proxy in
                         content

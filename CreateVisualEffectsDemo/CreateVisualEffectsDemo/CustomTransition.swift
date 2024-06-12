@@ -49,25 +49,25 @@ import SwiftUI
 }
 
 struct Twirl: Transition {
-    var clockwise: Bool = true
-
     func body(content: Content, phase: TransitionPhase) -> some View {
-        let rotated = Angle(degrees: clockwise ? -360 : 360)
-
-        content.visualEffect { view, _ in
-            view
-                .opacity(phase.isIdentity ? 1 : 0)
-                .scaleEffect(phase.isIdentity ? 1 : 0.5)
-                .blur(radius: phase.isIdentity ? 0 : 10)
-                .rotationEffect(phase.isIdentity ? .zero : rotated)
-        }
+        content
+            .scaleEffect(phase.isIdentity ? 1 : 0.5)
+            .opacity(phase.isIdentity ? 1 : 0)
+            .blur(radius: phase.isIdentity ? 0 : 10)
+            .rotationEffect(
+                .degrees(
+                    phase == .willAppear ? 360 :
+                        phase == .didDisappear ? -360 : .zero
+                )
+            )
+            .brightness(phase == .willAppear ? 1 : 0)
     }
 }
 
 struct Avatar: View {
     var body: some View {
         Circle()
-            .fill(.blue.shadow(.drop(radius: 2, y: 2)))
+            .fill(.blue)
             .overlay {
                 Image(systemName: "person.fill")
                     .resizable()
@@ -75,6 +75,7 @@ struct Avatar: View {
                     .scaleEffect(0.5)
                     .foregroundStyle(.white)
             }
-
+            .frame(width: 80, height: 80)
+            .compositingGroup()
     }
 }
