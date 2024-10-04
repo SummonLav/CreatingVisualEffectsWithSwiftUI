@@ -1,9 +1,9 @@
 /*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Examples for using scroll transitions for a view.
-*/
+ See the LICENSE.txt file for this sample’s licensing information.
+ 
+ Abstract:
+ Examples for using scroll transitions for a view.
+ */
 
 import SwiftUI
 
@@ -34,7 +34,6 @@ import SwiftUI
                                 .opacity(phase.isIdentity ? 1 : 0)
                                 .offset(x: phase.value * 100)
                         }
-                    
                 }
             }
         }
@@ -50,7 +49,7 @@ import SwiftUI
         Photo("Fish"),
         Photo("Succulent")
     ]
-
+    
     ScrollView(.horizontal) {
         LazyHStack(spacing: 12) {
             ForEach(photos) { photo in
@@ -74,7 +73,7 @@ import SwiftUI
         Photo("Fish"),
         Photo("Succulent")
     ]
-
+    
     ScrollView(.horizontal) {
         LazyHStack(spacing: 12) {
             ForEach(photos) { photo in
@@ -90,9 +89,9 @@ import SwiftUI
 
 struct Photo: Identifiable {
     var title: String
-
+    
     var id: Int = .random(in: 0 ... 100)
-
+    
     init(_ title: String) {
         self.title = title
     }
@@ -100,11 +99,11 @@ struct Photo: Identifiable {
 
 struct ItemPhoto: View {
     var photo: Photo
-
+    
     init(_ photo: Photo) {
         self.photo = photo
     }
-
+    
     var body: some View {
         Image(photo.title)
             .resizable()
@@ -115,11 +114,11 @@ struct ItemPhoto: View {
 
 struct ItemLabel: View {
     var photo: Photo
-
+    
     init(_ photo: Photo) {
         self.photo = photo
     }
-
+    
     var body: some View {
         Text(photo.title)
             .font(.title)
